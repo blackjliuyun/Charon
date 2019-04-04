@@ -54,6 +54,7 @@ def single_target_mode():
     except:
         PrintConsole("检查参数是否输入错误 eg.", 'error')
 
+
 def file_mode():
     try:
         for line in open(conf.INPUT_FILE_PATH):
@@ -67,5 +68,5 @@ def file_mode():
                     module["name"] = name
                     module["poc"] = exp
                     th.queue.put(module)
-    except :
+    except:
         PrintConsole("检查参数是否输入错误 eg. -f/vuln.txt", 'error')

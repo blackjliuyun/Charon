@@ -58,9 +58,6 @@ def scan():
 
 def run():
     initEngine()
-    # print(th)
-    # print(' ')
-    # print(conf)
     if conf.ENGINE is ENGINE_MODE_STATUS.THREAD:
         for i in range(th.threads_num):
             t = threading.Thread(target=scan, name=str(i))
@@ -71,7 +68,6 @@ def run():
                 time.sleep(0.01)
             else:
                 break
-    # print('wwwwwww')
     sys.stdout.write('\n')
     if 'errmsg' in th:
         # pass
