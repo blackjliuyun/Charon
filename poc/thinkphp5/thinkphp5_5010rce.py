@@ -18,10 +18,8 @@ def poc(url):
         if req.status_code == 200 or req.status_code == 500:
 
             if check_key in req.text:
-                result = "目标存在 ThinkPHP 5.0.*(Below 5.0.10) RCE, check url: %s, PoC: %s" % (url, poc_data)
+                result = "目标存在 ThinkPHP 5.0.*(Below 5.0.10) RCE, check url: %s PoC: %s" % (url, poc_data)
                 return result
     except:
         pass
 
-# a = poc('http://139.219.185.167')
-# print(a)

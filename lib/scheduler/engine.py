@@ -1,7 +1,7 @@
 from lib.core.data import conf, th
 from lib.core.console_color import PrintConsole
 from lib.core.enums import ENGINE_MODE_STATUS, POC_RESULT_STATUS
-import traceback
+import os
 import threading
 import time
 import sys
@@ -79,8 +79,11 @@ def run():
 
 def resultHandler(status, payload):
     def printScrren(msg):
+        i = th.found_count
         if th.s_flag:
             printMessage(msg)
+        if th.s_flag:
+            output2file(i, msg)
         if th.single_mode:
             singleMode()
 
@@ -143,3 +146,17 @@ def printProgress():
         th.found_count, th.queue.qsize(), th.scan_count, time.time() - th.start_time)
     out = '\r' + ' ' + msg
     sys.stdout.write(out)
+
+
+def output2file(i, msg):
+    if th.thread_mode: th.file_lock.acquire()
+    file_name = '{0}\output/{1}.{2}'.format(os.getcwd(), "report-" + time.strftime("%Y-%m-%d", time.localtime()),
+                                            'html')
+
+    url = msg.split(': ')[1]
+    f = open(file_name, 'a')
+    f.write(
+        "<style (type='text/css')>a:visited {color: red;}</style>"'&nbsp&nbsp' + str(i)+':&nbsp&nbsp' + "<a href=" + url + "target=_blank>" + msg + "</a>" + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + "<br>")
+
+    f.close()
+    if th.thread_mode: th.file_lock.release()
