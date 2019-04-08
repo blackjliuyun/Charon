@@ -88,8 +88,8 @@ def resultHandler(status, payload):
         i = th.found_count
         if th.s_flag:
             printMessage(msg)
-        # if th.s_flag:
-        #     output2file(i, msg)
+        if th.s_flag:
+            output2file(i, msg)
         if th.single_mode:
             singleMode()
 
@@ -100,7 +100,7 @@ def resultHandler(status, payload):
         th.queue.put(payload)
         return
     elif status is True or status is POC_RESULT_STATUS.SUCCESS:
-        msg = payload["sub"] + " : " + payload["name"]
+        msg = "目标存在 " + payload["name"][:-3] + " : " + payload["sub"]
         printScrren(msg)
     else:
         if type(status) == set:

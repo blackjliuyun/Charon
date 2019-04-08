@@ -46,8 +46,8 @@ def single_target_mode():
     for name, exp in conf.MODULE_PLUGIN.items():
         module = dict()
         if '://' not in str(conf.INPUT_TARGET_URL):
-            module["sub"] = 'http://' + str(conf.INPUT_TARGET_URL)
-        module["sub"] = str(module["sub"])
+            conf.INPUT_TARGET_URL = 'http://' + str(conf.INPUT_TARGET_URL)
+        module["sub"] = str(conf.INPUT_TARGET_URL)
         module["poc"] = exp
         module["name"] = name
         th.queue.put(module)
