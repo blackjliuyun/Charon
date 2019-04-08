@@ -11,6 +11,8 @@ SCRIPT_ALL_LIST = {
                     'struts2_046', 'struts2_048', 'struts2_048_1', 'struts2_052', 'struts2_053', 'struts2_dev'],
     'weblogic_all': ['weblogic_4852', 'weblogic_0638', 'weblogic_3510', 'weblogic_3248', 'weblogic_3506',
                      'weblogic_2628', 'weblogic_2893', 'weblogic_weak', 'weblogic_ssrf'],
+    'joomla_all': ['jooml_videoflow_sqli', 'joomla_registrationpro_sqli', 'joomla_videogallerylite_sqli']
+
 }
 
 

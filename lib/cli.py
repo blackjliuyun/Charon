@@ -47,6 +47,7 @@ def main():
     try:
         loadModule()
         loadPayloads()
+
     except AttributeError:
         exit()
     run()

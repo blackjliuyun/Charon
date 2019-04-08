@@ -6,6 +6,9 @@ import threading
 import time
 import sys
 import traceback
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 def initEngine():
@@ -44,10 +47,10 @@ def scan():
             # sys.stdout.write('\r' + payload + '\n\r')
             status = module_obj.poc(payload)
             resultHandler(status, module)
-        except KeyboardInterrupt:
-            th.is_continue = False
-            raise KeyboardInterrupt
-        except Exception:
+        # except KeyboardInterrupt:
+        #     th.is_continue = False
+        #     raise KeyboardInterrupt
+        except:
             th.errmsg = traceback.format_exc()
             th.is_continue = False
         changeScanCount(1)
@@ -85,8 +88,8 @@ def resultHandler(status, payload):
         i = th.found_count
         if th.s_flag:
             printMessage(msg)
-        if th.s_flag:
-            output2file(i, msg)
+        # if th.s_flag:
+        #     output2file(i, msg)
         if th.single_mode:
             singleMode()
 
@@ -97,7 +100,7 @@ def resultHandler(status, payload):
         th.queue.put(payload)
         return
     elif status is True or status is POC_RESULT_STATUS.SUCCESS:
-        msg = payload["sub"] + " -" + payload["name"]
+        msg = payload["sub"] + " : " + payload["name"]
         printScrren(msg)
     else:
         if type(status) == set:
@@ -150,15 +153,20 @@ def printProgress():
     out = '\r' + ' ' + msg
     sys.stdout.write(out)
 
+
+#
 def output2file(i, msg):
     if th.thread_mode: th.file_lock.acquire()
     file_name = '{0}\output/{1}.{2}'.format(os.getcwd(), "report-" + time.strftime("%Y-%m-%d", time.localtime()),
                                             'html')
 
-    url = msg.split(': ')[1]
+    url = msg.split(':')[1]
+    if 'http://' not in url:
+        url = 'http://' + url
     f = open(file_name, 'a')
     f.write(
-        "<style (type='text/css')>a:visited {color: red;}</style>"'&nbsp&nbsp' + str(i)+':&nbsp&nbsp' + "<a href=" + url + "target=_blank>" + msg + "</a>" + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + "<br>")
+        "<style (type='text/css')>a:visited {color: red;}</style>"'&nbsp&nbsp' + str(
+            i) + ':&nbsp&nbsp' + "<a href=" + url + "target=_blank>" + msg + "</a>" + '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + "<br>")
 
     f.close()
     if th.thread_mode: th.file_lock.release()

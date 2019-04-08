@@ -52,7 +52,7 @@ def check(url):
         response = ""
 
     if '<faultstring>java.lang.ProcessBuilder' in response or "<faultstring>0" in response:
-        result = '目标Weblogic存在JAVA反序列化漏洞,CVE-2017-3506 : %s' % url
+        result = '目标Weblogic存在XMLDecoder反序列化,CVE-2017-3506 : %s' % url
         return result
     # else:
     #     return 'CVE-2017-3506'

@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Charon.iml" filepath="$PROJECT_DIR$/.idea/Charon.iml" />
-      <module fileurl="file://E:/Pluto/.idea/Pluto.iml" filepath="E:/Pluto/.idea/Pluto.iml" />
     </modules>
   </component>
 </project>

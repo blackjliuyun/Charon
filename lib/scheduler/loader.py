@@ -42,17 +42,17 @@ def loadPayloads():
 
 
 def single_target_mode():
-    try:
-        for name, exp in conf.MODULE_PLUGIN.items():
-            module = dict()
-            if '://' not in str(conf.INPUT_TARGET_URL):
-                module["sub"] = 'http://' + str(conf.INPUT_TARGET_URL)
-            module["sub"] = str(conf.INPUT_TARGET_URL)
-            module["poc"] = exp
-            module["name"] = name
-            th.queue.put(module)
-    except:
-        PrintConsole("检查参数是否输入错误 eg.", 'error')
+    # try:
+    for name, exp in conf.MODULE_PLUGIN.items():
+        module = dict()
+        if '://' not in str(conf.INPUT_TARGET_URL):
+            module["sub"] = 'http://' + str(conf.INPUT_TARGET_URL)
+        module["sub"] = str(module["sub"])
+        module["poc"] = exp
+        module["name"] = name
+        th.queue.put(module)
+    # except:
+    #     PrintConsole("检查参数是否输入错误 eg.", 'error')
 
 
 def file_mode():

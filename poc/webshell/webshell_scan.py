@@ -29,10 +29,10 @@ def poc(url):
         code = req.status_code
         if code == 200 or code == 500:
             if "name='pass'" in str(sub) or "name='envlpass'" in str(sub):
-                find = "目标存在 Webshell 目标url: %s   %s" % (url, '存在误报')
+                find = "目标存在 Xebshell 目标url: %s   %s" % (url, '存在误报')
                 return find
             if "type='submit'" in str(sub):
-                find = "目标存在 Webshell 目标url: %s   %s" % (url, '存在误报')
+                find = "目标存在 Xebshell 目标url: %s   %s" % (url, '存在误报')
                 return find
             if '.asp' in url.lower():
                 post_test = {'test_pass_test': 'response.write("test!!!")'}
