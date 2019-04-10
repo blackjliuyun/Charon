@@ -208,5 +208,5 @@ def poc(url):
         return False
 
 
-a = poc('http://122.228.160.14:8080')
+a = poc('http://192.168.106.130:8080')
 print(a)
