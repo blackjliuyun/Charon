@@ -58,7 +58,7 @@ def poc(ip):
                 sock.send(payload.encode())
                 response = sock.recv(15000)
                 if len(response) > 0:
-                    result = "目标Weblogic测试返回内容为{} : %s".format(response) % ip
+                    result = "目标Weblogic测试返回内容为{} : %s".format(str(response)) % ip
                     sock.shutdown(2)
                     sock.close()
                     return result

