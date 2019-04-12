@@ -14,7 +14,7 @@ SCRIPT_ALL_LIST = {
                      'weblogic_ssrf'],
     'joomla_all': ['jooml_videoflow_sqli', 'joomla_registrationpro_sqli', 'joomla_videogallerylite_sqli'],
     'jboss_all': ['jboss_adminconsole', 'jboss_EJBInvokerServlet', 'jboss_jbossmq_httpil', 'jboss_jmxconsole',
-                  'jboss_JMXInvokerServlet', 'jboss_readonly', 'jboss_webconsole'],
+                  'jboss_JMXInvokerServlet', 'jboss_readonly', 'jboss_webconsole', 'jboss_12149', 'jboss_7504'],
 }
 
 

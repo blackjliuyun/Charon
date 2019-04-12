@@ -8,7 +8,7 @@ headers = {
 
 def poc(url):
     url1 = "%s/invoker/readonly" % url
-    result = "Maybe jBoss vuln CVE-2017-12149 : %s" % url1
+    result = "目标Jboss可能存在JAVA反序列化漏洞CVE-2017-12149 : %s" % url1
     timeout = 5
     try:
         req = requests.head(url1, timeout=timeout, headers=headers)
@@ -20,5 +20,5 @@ def poc(url):
 
 
 if __name__ == "__main__":
-    a = poc('http://60.174.64.241:8090')
+    a = poc('http://192.168.106.130:8080')
     print(a)
