@@ -1,9 +1,0 @@
-jboss
-122.228.160.14:8080
-60.174.64.241:8090
-http://210.245.90.24:8080/invoker/readonly
-weblogic
-http://167.86.78.228:7001
-
-gbk±àÂë±¨´í£ºwebshell
-http://www.tztongan.com:80/data/%23data.asp
