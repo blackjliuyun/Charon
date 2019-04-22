@@ -12,6 +12,7 @@ headers = {
 pwd = []
 
 with open(r".\poc\webshell\PW.txt", 'r')as p:
+# with open(r"PW.txt", 'r')as p:
     pwd_list = p.readlines()
     dic = len(pwd_list) / 1000
     for pw in pwd_list:
@@ -48,7 +49,7 @@ def poc(url):
                     if len(response.text) != len(wrong_res):
                         if '"<|-password' not in response.text:
                             if '<|-password' in response.text:
-                                pattern = re.search(r'[<][|][-](.*)[-][|][>]', response.text)
+                                pattern = re.search(r'[<][|][-](.*?)[-][|][>]', response.text)
                                 find = "目标存在 Webshell 目标url: %s   %s" % (url, str(pattern.group(1)))
                                 return find
             if '.aspx' in url.lower():
@@ -66,7 +67,7 @@ def poc(url):
                     if len(response.text) != len(wrong_res):
                         if '"<|-password' not in response.text:
                             if '<|-password' in response.text:
-                                pattern = re.search(r'[<][|][-](.*)[-][|][>]', response.text)
+                                pattern = re.search(r'[<][|][-](.*?)[-][|][>]', response.text)
                                 find = "目标存在 Webshell 目标url: %s   %s" % (url, str(pattern.group(1)))
                                 return find
             if '.jsp' in url.lower():
@@ -82,7 +83,7 @@ def poc(url):
                     time.sleep(1)
                     if len(response.text) != len(wrong_res):
                         if '<|-password' in response.text:
-                            pattern = re.search(r'[<][|][-](.*)[-][|][>]', response.text)
+                            pattern = re.search(r'[<][|][-](.*?)[-][|][>]', response.text)
                             find = "目标存在 Webshell 目标url: %s   %s" % (url, str(pattern.group(1)))
                             return find
 
@@ -106,8 +107,13 @@ def poc(url):
                     time.sleep(1)
                     if len(response.text) != len(wrong_res):
                         if '<|-password' in response.text:
-                            pattern = re.search(r'[<][|][-](.*)[-][|][>]', response.text)
+                            pattern = re.search(r'[<][|][-](.*?)[-][|][>]', response.text)
                             find = "目标存在 Webshell 目标url: %s   %s" % (url, str(pattern.group(1)))
                             return find
     except:
         pass
+
+
+if __name__ == "__main__":
+    a = poc('http://127.0.0.1/data.asp')
+    print(a)
